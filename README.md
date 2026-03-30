@@ -1,24 +1,27 @@
 # 🚀 URL Shortener — Day 1
-A scalable and high-performance URL Shortener built with Node.js, Express, MongoDB, and Redis, designed for efficient redirection and caching at scale
-
+A scalable and high-performance URL Shortener built using Node.js, Express.js, MongoDB, Redis, and NanoID, with a React-based frontend. This project demonstrates system design principles including caching, efficient URL mapping, and low-latency redirection, while documenting a structured 30-day development journey.
 Starting my journey of building a **URL Shortener from scratch**.
 
 ---
 
 ## 📌 About
 
-This project aims to convert long URLs into short, shareable links.
+- This project aims to convert long URLs into short, shareable links.
 
-Building this to understand how real backend systems work.
+- Building this to understand how real backend systems work.
 
 ---
 
 ## 🛠 Tech Stack (Planned)
 
-- Node.js  
-- Express.js  
+- Node.js
+- React.js
+- Express.js
+- NanoId 
 - MongoDB  
-- Redis  
+- Redis
+- Cors
+   
 
 ---
 
