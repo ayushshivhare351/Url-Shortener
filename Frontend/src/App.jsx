@@ -8,7 +8,7 @@ function App() {
   
   const handleShorten = async () => {
   try {
-    const res = await axios.post("http://localhost:3000/shorten", {
+    const res = await axios.post("https://url-shortener-ti4q.onrender.com/shorten", {
       longUrl: url
     });
 
