@@ -75,38 +75,38 @@ const redisClient = require('./redisClient');
 app.get('/:shortId', async (req, res) => {
     const { shortId } = req.params;
     // ........................ settinggg redis of .............................
-    // try {
-    //     // 1️⃣ Check Redis cache for URL
-    //     let cachedUrl = await redisClient.get(`url:${shortId}`);
+    try {
+        // 1️⃣ Check Redis cache for URL
+        let cachedUrl = await redisClient.get(`url:${shortId}`);
 
-    //     if (cachedUrl) {
-    //         console.log('Redirect from Redis');
+        if (cachedUrl) {
+            console.log('Redirect from Redis');
 
-    //         // 2️⃣ Increment click count in Redis
-    //         await redisClient.incr(`clicks:${shortId}`);
+            // 2️⃣ Increment click count in Redis
+            await redisClient.incr(`clicks:${shortId}`);
 
-    //         return res.redirect(cachedUrl);
-    //     }
+            return res.redirect(cachedUrl);
+        }
 
         // 3️⃣ Not in Redis → fetch from MongoDB
-    const url = await Url.findOne({ shortId });
-    if (!url) return res.status(404).send('Short URL not found');
+        const url = await Url.findOne({ shortId });
+        if (!url) return res.status(404).send('Short URL not found');
 
         // // 4️⃣ Cache URL in Redis
-        // await redisClient.set(`url:${shortId}`, url.longUrl, {
-        //     EX: 60 * 60 * 24 // optional: 24-hour expiry
-        // });
+        await redisClient.set(`url:${shortId}`, url.longUrl, {
+            EX: 60 * 60 * 24 // optional: 24-hour expiry
+        });
 
         // 5️⃣ Increment click count in Redis
-        // await redisClient.incr(`clicks:${shortId}`);
+        await redisClient.incr(`clicks:${shortId}`);
 
-    console.log('Redirect from MongoDB & cached in Redis');
-    res.redirect(url.longUrl);
+        console.log('Redirect from MongoDB & cached in Redis');
+        res.redirect(url.longUrl);
 
-    // } catch (err) {
-    //     console.error(err);
-    //     res.status(500).send('Server Error');
-    // }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 });
 
 const syncClicksToMongo = async () => {
