@@ -61,7 +61,7 @@ app.post('/shorten', async (req, res) => {
 
     await newUrl.save(); // save to MongoDB
     
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.BASE_URL || "https://url-shortener-ti4q.onrender.com";
     const shortUrl = `${baseUrl}/${shortId}`;
     res.json({ shortUrl });
 });
