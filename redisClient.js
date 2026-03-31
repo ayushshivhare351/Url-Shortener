@@ -1,11 +1,10 @@
 const redis = require('redis');
 
+const REDIS_URL = process.env.REDIS_URL || 'redis://red-d762qgudqaus73cdo2ig:6379';
+
 // Create Redis client
 const redisClient = redis.createClient({
-    socket: {
-        host: '127.0.0.1', // localhost
-        port: 6379          // default Redis port
-    }
+    url: REDIS_URL
 });
 
 // Connect to Redis
