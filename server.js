@@ -89,8 +89,8 @@ app.get('/:shortId', async (req, res) => {
     //     }
 
         // 3️⃣ Not in Redis → fetch from MongoDB
-        const url = await Url.findOne({ shortId });
-        if (!url) return res.status(404).send('Short URL not found');
+    const url = await Url.findOne({ shortId });
+    if (!url) return res.status(404).send('Short URL not found');
 
         // // 4️⃣ Cache URL in Redis
         // await redisClient.set(`url:${shortId}`, url.longUrl, {
@@ -100,13 +100,13 @@ app.get('/:shortId', async (req, res) => {
         // 5️⃣ Increment click count in Redis
         // await redisClient.incr(`clicks:${shortId}`);
 
-        console.log('Redirect from MongoDB & cached in Redis');
-        res.redirect(url.longUrl);
+    console.log('Redirect from MongoDB & cached in Redis');
+    res.redirect(url.longUrl);
 
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+    // } catch (err) {
+    //     console.error(err);
+    //     res.status(500).send('Server Error');
+    // }
 });
 
 const syncClicksToMongo = async () => {
