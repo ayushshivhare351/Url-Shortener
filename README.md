@@ -6,7 +6,7 @@ Starting my journey of building a **URL Shortener from scratch**.
 
 ## 📌 About
 
-- This project aims to convert long URLs into short, shareable links.
+- This project aims converting long URLs into short, shareable links.
 
 - Building this to understand how real backend systems work.
 
