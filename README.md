@@ -1,62 +1,124 @@
-# 🚀 URL Shortener — Day 1
-A scalable and high-performance URL Shortener built using Node.js, Express.js, MongoDB, Redis, and NanoID, with a React-based frontend. This project demonstrates system design principles including caching, efficient URL mapping, and low-latency redirection, while documenting a structured 30-day development journey.
-Starting my journey of building a **URL Shortener from scratch**.
+# 🔗 Scalable URL Shortener System
+
+A scalable and high-performance URL Shortener built using Node.js, Express.js, MongoDB, Redis, and NanoID, with a React-based frontend.
+
+This project demonstrates real-world system design concepts such as caching, efficient URL mapping, and low-latency redirection.
 
 ---
 
-## 📌 About
+## 🚀 Features
 
-- This project aims converting long URLs into short, shareable links.
-
-- Building this to understand how real backend systems work.
+- 🔗 Convert long URLs into short, shareable links  
+- ⚡ Fast redirection using Redis caching  
+- 📊 Click tracking and analytics  
+- ⏳ URL expiration support  
+- 🌐 RESTful API architecture  
+- 💻 React-based frontend UI  
+- 🔒 Secure APIs with CORS and rate limiting  
 
 ---
 
-## 🛠 Tech Stack (Planned)
+## 🛠 Tech Stack
 
-- Node.js
-- React.js
-- Express.js
-- NanoId 
+**Backend:**
+- Node.js  
+- Express.js  
+
+**Database:**
 - MongoDB  
-- Redis
-- Cors
-   
+
+**Caching:**
+- Redis  
+
+**Frontend:**
+- React.js  
+
+**Utilities:**
+- NanoID  
+- CORS  
 
 ---
 
-## 🚀 Progress (Day 1)
+## ⚙️ System Design Overview
 
-- [x] Project initialized  
-- [x] Git setup completed  
-- [x] Basic folder structure created  
-- [ ] Backend server setup  
-- [ ] Database connection  
-- [ ] URL shortening logic  
-
----
-
-## 🎯 Goal
-
-- Learn backend development from scratch  
-- Understand API creation  
-- Explore databases and caching  
-- Build a scalable system step by step  
+- Client sends a long URL → Backend API  
+- Server generates a unique short ID using NanoID  
+- Mapping is stored in MongoDB  
+- Frequently accessed URLs are cached in Redis ⚡  
+- On request, system checks Redis → fallback to DB → redirects user  
 
 ---
 
-## 🧠 Learning
+## 📡 API Endpoints
 
-Starting from zero and learning everything by building.
+### 🔹 Create Short URL
+POST /api/shorten
+
+### 🔹 Redirect to Original URL
+GET /:shortId
+
+### 🔹 Get Analytics
+GET /api/analytics/:shortId
 
 ---
 
-## 📅 Daily Updates
+## 🚀 Getting Started
 
-I’ll be updating this project daily with new features and improvements.
+### 1️⃣ Clone the repository
+git clone https://github.com/your-username/url-shortener.git  
+cd url-shortener  
+
+### 2️⃣ Install dependencies
+npm install  
+
+### 3️⃣ Setup environment variables
+
+Create a `.env` file:
+
+PORT=5000  
+MONGO_URI=your_mongodb_connection  
+REDIS_URL=your_redis_connection  
+BASE_URL=http://localhost:5000  
+
+### 4️⃣ Run the server
+npm start  
+
+---
+
+## 💻 Frontend Setup
+
+cd client  
+npm install  
+npm start  
+
+---
+
+## 📊 Key Learnings
+
+- Built a scalable backend system  
+- Implemented caching using Redis  
+- Designed REST APIs using Express.js  
+- Managed database operations with MongoDB  
+- Integrated frontend with backend  
+- Improved debugging and problem-solving skills  
+
+---
+
+## 📈 Future Improvements
+
+- 🔐 Authentication & user accounts  
+- 🌍 Custom domain support  
+- 📊 Advanced analytics dashboard  
+- 📦 Docker & CI/CD integration  
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork and improve the project.
 
 ---
 
 ## ⭐ Support
 
-If you like this journey, consider giving a ⭐ to the repo!
+If you found this project helpful, consider giving it a ⭐ on GitHub!
