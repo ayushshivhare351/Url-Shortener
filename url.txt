@@ -1,0 +1,19 @@
+DAY 1
+EXPRESS : https://youtu.be/N2-FyBBxOZA?si=vjMQpilIKNcNMdLk
+NANO ID : https://youtu.be/3ur8eXo2wZ0?si=mrVgUQ5bI7SV0_hI
+POSTMAN : https://youtu.be/7OzNVIxPLH0?si=VyFFc5NAVeBbdB1i
+MONGODB : https://youtu.be/oH0VoYiA8_s?si=bNRia1xG6fanMWfa
+MONGODB 2 : https://youtu.be/oH0VoYiA8_s?si=iEtvPpAAILAmkkoo
+MongoDB connection, schema, and API changes0
+REACT : https://youtu.be/Xe8CkYZvCig?si=dMlKnSIjOVyeFkNe
+CORS : 
+AXIOS : https://youtu.be/ug0tq-EidEE?si=c6aNUe0e1qsGTgO5
+
+MONGO ATLAS: 
+mongodb+srv://ayushshivhare351_db_user:Tfi3C7GCs0Kdw8WM@ayush.2fwshgd.mongodb.net/?appName=ayush
+Got stuck in error :
+This was an DNS ERROR
+{ Error: querySrv EREFUSED _mongodb._tcp.main-03xkr.mongodb.net at QueryReqWrap.onresolve [as oncomplete] (dns.js:199:19) errno: 'EREFUSED', code: 'EREFUSED', syscall: 'querySrv', hostname: '_mongodb._tcp.main-03xkr.mongodb.net' }
+Fixed That by:
+1. Making cluster ip whitelisted for all
+2. adding -->> const dns = require("dns"); dns.setServers(["1.1.1.1", "8.8.8.8"]);
