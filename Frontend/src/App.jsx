@@ -13,15 +13,8 @@ function App() {
 
   setLoading(true);
 
-  try {
-    const res = await axios.post(
-      // "https://url-shortener-ti4q.onrender.com/shorten"
-      'http://localhost:3000/shorten',
-      {
-        longUrl: url,
-        customAlias: customAlias || undefined,
-      }
-    );
+  try { const res = await axios.post( "https://url-shortener-ti4q.onrender.com/shorten",
+    { longUrl: url, customAlias: customAlias || undefined, } );
 
     setShortUrl(res.data.shortUrl);
     setUrl("");
