@@ -49,7 +49,7 @@ app.use(express.json()); // json parsing
 
 // this runs when someone opens localhost:3000
 app.get('/', (req, res) => {
-    res.send('Hello Ayush 🚀 Server is running, dyude');
+    res.send('Hello Ayush 🚀 Server is running');
 });
 
 // url shorter
