@@ -15,12 +15,12 @@ function App() {
 
   try {
     const res = await axios.post(
-      "https://url-shortener-ti4q.onrender.com/shorten",
-      // 'http://localhost:3000/shorten',
-      {
-        longUrl: url,
-        customAlias: customAlias || undefined,
-      }
+    `${process.env.REACT_APP_API_URL}/shorten`,
+    {
+      longUrl: url,
+      customAlias: customAlias || undefined,
+    }
+
     );
 
     setShortUrl(res.data.shortUrl);
