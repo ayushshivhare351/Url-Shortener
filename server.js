@@ -1,3 +1,4 @@
+console.log("SERVER.JS LOADED");
 //mongodb
 require('dotenv').config();
 
@@ -43,6 +44,7 @@ const Url = mongoose.model('Url', urlSchema);
 const express = require('express'); // import Express
 const cors = require("cors");
 const app = express(); // create server instance
+
 const { nanoid } = require('nanoid'); // import nanoid
 app.use(cors());         // ✅ allow requests from any origin
 app.use(express.json()); // json parsing
@@ -51,6 +53,25 @@ app.use(express.json()); // json parsing
 app.get('/', (req, res) => {
     res.send('Hello Ayush 🚀 Server is running');
 });
+
+// GET all URLs
+app.get("/urls", async (req, res) => {
+  try {
+    const urls = await Url.find({});
+
+    const formatted = urls.map(u => ({
+      shortId: u.shortId,
+      longUrl: u.longUrl,
+      totalClicks: u.clicks // 👈 IMPORTANT FIX
+    }));
+
+    res.json(formatted);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 // url shorter
 // POST API to shorten a URL
@@ -151,8 +172,6 @@ app.get('/stats/:shortId', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
-
 
 
 // Redirect route
@@ -276,38 +295,6 @@ const syncClicksToMongo = async () => {
 
 // Sync every 1 minute (adjust as needed)
 setInterval(syncClicksToMongo, 60 * 1000);
-
-app.get('/stats/:shortId', async (req, res) => {
-    const { shortId } = req.params;
-
-    try {
-        // 1️⃣ Get clicks from Redis (fast)
-        let redisClicks = 0;
-
-        if (redisClient.isReady) {
-            redisClicks = await redisClient.get(`clicks:${shortId}`);
-            redisClicks = redisClicks ? parseInt(redisClicks) : 0;
-        }
-
-        // 2️⃣ Get total clicks from MongoDB (permanent storage)
-        const urlData = await Url.findOne({ shortId });
-        if (!urlData) return res.status(404).json({ error: 'URL not found' });
-
-        const totalClicks = urlData.clicks + redisClicks;
-
-        res.json({
-            shortId,
-            longUrl: urlData.longUrl,
-            totalClicks,
-        });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-
 
 
 const PORT = process.env.PORT || 3000;
