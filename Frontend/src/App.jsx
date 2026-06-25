@@ -12,10 +12,10 @@ function App() {
   if (!url) return;
 
   setLoading(true);
-
+  
   try {
     const res = await axios.post(
-    `${process.env.REACT_APP_API_URL}/shorten`,
+    `${import.meta.env.VITE_API_URL}/shorten`,
     {
       longUrl: url,
       customAlias: customAlias || undefined,
