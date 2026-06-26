@@ -9,6 +9,11 @@ import {
 
 import Dashboard from "./pages/Dashboard";
 import Stats from "./pages/Stats";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import MyDashboard from "./pages/MyDashboard";
+import Navbar from "./components/Navbar";
+
 
 function Home() {
   const [url, setUrl] = useState("");
@@ -50,7 +55,7 @@ function Home() {
 
   return (
     <div id="root">
-      <div className="top-badge">Ayush Shivhare</div>
+      {/* <div className="top-badge">Ayush Shivhare</div> */}
 
       <h1>
         The Smartest <span>URL Shortener</span>
@@ -151,19 +156,6 @@ function Home() {
           </div>
         )}
 
-        <div
-          style={{
-            marginTop: "20px",
-            textAlign: "center",
-          }}
-        >
-          <Link to="/dashboard">
-            <button>
-              Go to Dashboard
-            </button>
-          </Link>
-        </div>
-
       </div>
     </div>
   );
@@ -172,12 +164,20 @@ function Home() {
 export default function App() {
   return (
     <Router>
+      <Navbar />
 
       <Routes>
 
         <Route
           path="/"
           element={<Home />}
+        />
+
+        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/register"
+          element={<Register />}
         />
 
         <Route
@@ -190,6 +190,8 @@ export default function App() {
           element={<Stats />}
         />
 
+        <Route path="/stats/:shortId" element={<Stats />} />
+        <Route path="/mydashboard" element={<MyDashboard />} />
       </Routes>
 
     </Router>

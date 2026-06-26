@@ -1,7 +1,8 @@
 console.log("SERVER.JS LOADED");
 //mongodb
 require('dotenv').config();
-
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose');
 // Load environment variables at the very top
 
@@ -20,26 +21,49 @@ mongoose.connect(link)
 
 // schema
 const urlSchema = new mongoose.Schema({
-    shortId: {
+  shortId: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  longUrl: {
+    type: String,
+    required: true
+  },
+  clicks: {
+    type: Number,
+    default: 0
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Url = mongoose.model('Url', urlSchema);
+
+// user schema
+const userSchema = new mongoose.Schema({
+
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    longUrl: {
+
+    password: {
         type: String,
         required: true
-    },
-    clicks: {
-        type: Number,
-        default: 0
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
-});
 
-const Url = mongoose.model('Url', urlSchema);
+});
+const User = mongoose.model('User', userSchema);
+
 
 const express = require('express'); // import Express
 const cors = require("cors");
@@ -49,9 +73,60 @@ const { nanoid } = require('nanoid'); // import nanoid
 app.use(cors());         // ✅ allow requests from any origin
 app.use(express.json()); // json parsing
 
+
+// middlewares
+const auth = (req, res, next) => {
+  const header = req.headers.authorization;
+
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
+  const token = header.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = decoded.id;
+
+    next();
+
+  } catch (err) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+};
+
+const optionalAuth = (req, res, next) => {
+  const header = req.headers.authorization;
+
+  if (!header || !header.startsWith("Bearer ")) {
+    req.user = null;
+    return next();
+  }
+
+  const token = header.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.id;
+  } catch {
+    req.user = null;
+  }
+
+  next();
+};
+
+//  ROUTES STARTS HERE ==============================================
 // this runs when someone opens localhost:3000
 app.get('/', (req, res) => {
     res.send('Hello Ayush 🚀 Server is running');
+});
+
+// TEMP ROUTE
+app.get('/me', auth, (req, res) => {
+  res.json({
+    userId: req.user
+  });
 });
 
 // GET all URLs
@@ -72,10 +147,67 @@ app.get("/urls", async (req, res) => {
   }
 });
 
+// delets
+app.delete('/urls/:shortId', auth, async (req, res) => {
+  try {
+    const { shortId } = req.params;
+
+    const url = await Url.findOne({ shortId });
+
+    if (!url) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+
+    if (!url.owner || url.owner.toString() !== req.user) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    await url.deleteOne();
+
+    if (redisClient.isReady) {
+      await redisClient.del(`url:${shortId}`);
+      await redisClient.del(`clicks:${shortId}`);
+
+      await redisClient.sRem(
+        'tracked_clicks_keys',
+        `clicks:${shortId}`
+      );
+    }
+
+    res.json({
+      message: 'URL deleted successfully'
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: 'Server error'
+    });
+  }
+});
+
+// myurls
+app.get('/myurls', auth, async (req, res) => {
+  try {
+    const urls = await Url.find({ owner: req.user });
+
+    res.json(urls);
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      error: 'Server error'
+    });
+
+  }
+});
+
 
 // url shorter
 // POST API to shorten a URL
-app.post('/shorten', async (req, res) => {
+app.post('/shorten', optionalAuth, async (req, res) => {    
     console.log("BODY:", req.body);
     try {
         const { longUrl, customAlias } = req.body;
@@ -113,7 +245,11 @@ app.post('/shorten', async (req, res) => {
         }
 
         // Save to MongoDB
-        await Url.create({ shortId, longUrl });
+        await Url.create({
+            shortId,
+            longUrl,
+            owner: req.user
+            });
         console.log("saved in mongo");
 
 
@@ -173,6 +309,66 @@ app.get('/stats/:shortId', async (req, res) => {
     }
 });
 
+// login
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({ token });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// register
+app.post('/register', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password required' });
+    }
+
+    const existing = await User.findOne({ email });
+
+    if (existing) {
+      return res.status(409).json({ error: 'User already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.create({
+      email,
+      password: hashedPassword
+    });
+
+    res.json({ message: 'User registered successfully' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 // Redirect route
 app.get('/:shortId', async (req, res) => {
