@@ -41,6 +41,21 @@ function Home() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  
+const buttonStyle = {
+  background: "linear-gradient(90deg, #0a0a0b 0%, #2a2a2e 100%)",
+  color: "#e5e5e7",
+  border: "none",
+  padding: "10px 22px",
+  borderRadius: "100px",
+  cursor: "pointer",
+  textDecoration: "none",
+  display: "inline-block",
+  fontWeight: 600,
+  fontSize: "0.9rem",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
+};
+
   return (
     <div id="root">
       <div className="hero-glow" aria-hidden="true" />
@@ -122,7 +137,7 @@ function Home() {
         </div>
 
         {shortUrl && (
-          <div className="result-box" style={{ background: "#09090b", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+          <div className="result-box" style={{ background: "#090b09", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
             <p style={{ color: "var(--text-dim)", fontSize: "12px", marginBottom: "12px" }}>
               Your link is ready to share:
             </p>
@@ -130,7 +145,8 @@ function Home() {
               <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="short-link" style={{ color: "#7c5cff" }}>
                 {shortUrl}
               </a>
-              <button onClick={handleCopy} style={{ padding: "10px 24px", fontSize: "13px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "none" }}>
+              <button onClick={handleCopy} 
+              style={buttonStyle}>
                 {copied ? "Copied!" : "Copy Link"}
               </button>
             </div>
