@@ -67,8 +67,6 @@ export default function MyDashboard() {
     }
   };
 
-
-
   const totalClicks = urls.reduce((sum, u) => sum + u.clicks, 0);
 
   const customAliases = urls.filter(u =>
@@ -76,74 +74,81 @@ export default function MyDashboard() {
   ).length;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>My Dashboard</h1>
+    <div className="dashboard-page">
+      <span className="eyebrow">Your Links</span>
 
-      {/* CARDS */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-        <div style={{ padding: "10px", border: "1px solid black" }}>
-          Total URLs: {urls.length}
+      <div className="dashboard-header">
+        <div className="dashboard-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="7" height="9" rx="1" />
+            <rect x="14" y="3" width="7" height="5" rx="1" />
+            <rect x="14" y="12" width="7" height="9" rx="1" />
+            <rect x="3" y="16" width="7" height="5" rx="1" />
+          </svg>
         </div>
+        <h1>My <span>Dashboard</span></h1>
+      </div>
 
-        <div style={{ padding: "10px", border: "1px solid black" }}>
-          Total Clicks: {totalClicks}
+      <p className="dashboard-subtitle">
+        Every link you've created, all in one place.
+      </p>
+
+      <div className="stat-tiles">
+        <div className="stat-tile">
+          <span className="stat-tile-label">Total URLs</span>
+          <span className="stat-tile-value">{urls.length}</span>
         </div>
-
-        <div style={{ padding: "10px", border: "1px solid black" }}>
-          Custom Aliases: {customAliases}
+        <div className="stat-tile">
+          <span className="stat-tile-label">Total Clicks</span>
+          <span className="stat-tile-value">{totalClicks}</span>
+        </div>
+        <div className="stat-tile">
+          <span className="stat-tile-label">Custom Aliases</span>
+          <span className="stat-tile-value">{customAliases}</span>
         </div>
       </div>
 
-      {/* TABLE */}
-      <table border="1" cellPadding="10" width="100%">
-        <thead>
-          <tr>
-            <th>Short ID</th>
-            <th>Original URL</th>
-            <th>Clicks</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {urls.map((u) => (
-            <tr key={u._id}>
-              <td>{u.shortId}</td>
-              <td>{u.longUrl}</td>
-              <td>{u.clicks}</td>
-              <td>
-                <button onClick={() => copy(u.shortId)}>
-                  Copy
-                </button>
-
-                <button
-                  onClick={() =>
-                    window.open(`/stats/${u.shortId}`, "_blank")
-                  }
-                  style={{ marginLeft: "10px" }}
-                >
-                  Stats
-                </button>
-
-                <button
-                  onClick={() => deleteUrl(u.shortId)}
-                  style={{ marginLeft: "10px" }}
-                >
-                  Delete
-                </button>
-
-
-              </td>
+      <div className="url-table-wrapper">
+        <table className="url-table">
+          <thead>
+            <tr>
+              <th>Short ID</th>
+              <th>Original URL</th>
+              <th>Clicks</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
 
-      {urls.length === 0 && (
-        <p style={{ marginTop: "20px" }}>
-          No URLs created yet.
-        </p>
-      )}
+          <tbody>
+            {urls.length === 0 ? (
+              <tr className="empty-row">
+                <td colSpan="4">No URLs created yet.</td>
+              </tr>
+            ) : (
+              urls.map((u) => (
+                <tr key={u._id}>
+                  <td className="short-id-cell">{u.shortId}</td>
+                  <td className="long-url-cell">{u.longUrl}</td>
+                  <td>{u.clicks}</td>
+                  <td>
+                    <div className="table-actions">
+                      <button className="btn-table-action" onClick={() => copy(u.shortId)}>
+                        Copy
+                      </button>
+                      <button className="btn-table-action" onClick={() => window.open(`/stats/${u.shortId}`, "_blank")}>
+                        Stats
+                      </button>
+                      <button className="btn-table-action danger" onClick={() => deleteUrl(u.shortId)}>
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

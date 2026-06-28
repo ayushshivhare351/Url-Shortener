@@ -38,69 +38,88 @@ export default function Dashboard() {
       url.longUrl.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <span className="eyebrow">Dashboard</span>
+        <h1 style={{ fontSize: "2rem", color: "#6b6f76", fontWeight: 200 }}>Loading...</h1>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>📊 URL Dashboard</h1>
+    <div className="dashboard-page">
+      <span className="eyebrow">All Links</span>
 
-      <input
-        type="text"
-        placeholder="Search URLs..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "8px",
-          width: "300px",
-          marginTop: "10px",
-          marginBottom: "20px",
-        }}
-      />
+      <div className="dashboard-header">
+        <div className="dashboard-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="20" x2="12" y2="10" />
+            <line x1="18" y1="20" x2="18" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="16" />
+          </svg>
+        </div>
+        <h1>URL <span>Dashboard</span></h1>
+      </div>
 
-      <table
-        border="1"
-        cellPadding="10"
-        style={{ width: "100%", borderCollapse: "collapse" }}
-      >
-        <thead>
-          <tr>
-            <th>Short ID</th>
-            <th>Original URL</th>
-            <th>Clicks</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      <p className="dashboard-subtitle">
+        Browse and search every link that's been shortened on SwiftLink.
+      </p>
 
-        <tbody>
-          {filteredUrls.length === 0 ? (
+      <div className="dashboard-search-wrapper">
+        <span className="dashboard-search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </span>
+        <input
+          type="text"
+          className="dashboard-search-input"
+          placeholder="Search URLs..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="url-table-wrapper">
+        <table className="url-table">
+          <thead>
             <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>
-                No URLs found
-              </td>
+              <th>Short ID</th>
+              <th>Original URL</th>
+              <th>Clicks</th>
+              <th>Actions</th>
             </tr>
-          ) : (
-            filteredUrls.map((url) => (
-              <tr key={url.shortId}>
-                <td>{url.shortId}</td>
-                <td>{url.longUrl}</td>
-                <td>{url.totalClicks}</td>
-                <td>
-                  <button onClick={() => copyToClipboard(url.shortId)}>
-                    Copy
-                  </button>
+          </thead>
 
-                  <button
-                    onClick={() => navigate(`/stats/${url.shortId}`)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Stats
-                  </button>
-                </td>
+          <tbody>
+            {filteredUrls.length === 0 ? (
+              <tr className="empty-row">
+                <td colSpan="4">No URLs found</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              filteredUrls.map((url) => (
+                <tr key={url.shortId}>
+                  <td className="short-id-cell">{url.shortId}</td>
+                  <td className="long-url-cell">{url.longUrl}</td>
+                  <td>{url.totalClicks}</td>
+                  <td>
+                    <div className="table-actions">
+                      <button className="btn-table-action" onClick={() => copyToClipboard(url.shortId)}>
+                        Copy
+                      </button>
+                      <button className="btn-table-action" onClick={() => navigate(`/stats/${url.shortId}`)}>
+                        Stats
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
