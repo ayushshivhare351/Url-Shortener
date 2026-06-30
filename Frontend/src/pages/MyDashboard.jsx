@@ -75,23 +75,27 @@ export default function MyDashboard() {
 
   return (
     <div className="dashboard-page">
-      <span className="eyebrow">Your Links</span>
+      <div className="hero-glow" aria-hidden="true" />
 
-      <div className="dashboard-header">
-        <div className="dashboard-header-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="7" height="9" rx="1" />
-            <rect x="14" y="3" width="7" height="5" rx="1" />
-            <rect x="14" y="12" width="7" height="9" rx="1" />
-            <rect x="3" y="16" width="7" height="5" rx="1" />
-          </svg>
+      <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <span className="eyebrow">Your Links</span>
+
+        <div className="dashboard-header" style={{ justifyContent: "center" }}>
+          <div className="dashboard-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="9" rx="1" />
+              <rect x="14" y="3" width="7" height="5" rx="1" />
+              <rect x="14" y="12" width="7" height="9" rx="1" />
+              <rect x="3" y="16" width="7" height="5" rx="1" />
+            </svg>
+          </div>
+          <h1>My <span>Dashboard</span></h1>
         </div>
-        <h1>My <span>Dashboard</span></h1>
-      </div>
 
-      <p className="dashboard-subtitle">
-        Every link you've created, all in one place.
-      </p>
+        <p className="dashboard-subtitle" style={{ textAlign: "center", maxWidth: "480px" }}>
+          Every link you've created, all in one place.
+        </p>
+      </div>
 
       <div className="stat-tiles">
         <div className="stat-tile">
@@ -108,46 +112,74 @@ export default function MyDashboard() {
         </div>
       </div>
 
-      <div className="url-table-wrapper">
-        <table className="url-table">
-          <thead>
-            <tr>
-              <th>Short ID</th>
-              <th>Original URL</th>
-              <th>Clicks</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+      <div
+        className="glass-card"
+        style={{
+          background: "#121215",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+          position: "relative",
+          overflow: "hidden",
+          padding: "8px",
+          width: "100%",
+          maxWidth: "1080px",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-120px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "560px",
+            height: "240px",
+            background: "radial-gradient(closest-side, rgba(139,92,246,0.18), transparent)",
+            pointerEvents: "none"
+          }}
+        />
 
-          <tbody>
-            {urls.length === 0 ? (
-              <tr className="empty-row">
-                <td colSpan="4">No URLs created yet.</td>
+        <div className="url-table-wrapper" style={{ position: "relative" }}>
+          <table className="url-table">
+            <thead>
+              <tr>
+                <th>Short ID</th>
+                <th>Original URL</th>
+                <th>Clicks</th>
+                <th>Actions</th>
               </tr>
-            ) : (
-              urls.map((u) => (
-                <tr key={u._id}>
-                  <td className="short-id-cell">{u.shortId}</td>
-                  <td className="long-url-cell">{u.longUrl}</td>
-                  <td>{u.clicks}</td>
-                  <td>
-                    <div className="table-actions">
-                      <button className="btn-table-action" onClick={() => copy(u.shortId)}>
-                        Copy
-                      </button>
-                      <button className="btn-table-action" onClick={() => window.open(`/stats/${u.shortId}`, "_blank")}>
-                        Stats
-                      </button>
-                      <button className="btn-table-action danger" onClick={() => deleteUrl(u.shortId)}>
-                        Delete
-                      </button>
-                    </div>
-                  </td>
+            </thead>
+
+            <tbody>
+              {urls.length === 0 ? (
+                <tr className="empty-row">
+                  <td colSpan="4">No URLs created yet.</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                urls.map((u) => (
+                  <tr key={u._id}>
+                    <td className="short-id-cell">{u.shortId}</td>
+                    <td className="long-url-cell">{u.longUrl}</td>
+                    <td>{u.clicks}</td>
+                    <td>
+                      <div className="table-actions">
+                        <button className="btn-table-action" onClick={() => copy(u.shortId)}>
+                          Copy
+                        </button>
+                        <button className="btn-table-action" onClick={() => window.open(`/stats/${u.shortId}`, "_blank")}>
+                          Stats
+                        </button>
+                        <button className="btn-table-action danger" onClick={() => deleteUrl(u.shortId)}>
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

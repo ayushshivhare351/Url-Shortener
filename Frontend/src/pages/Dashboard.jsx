@@ -41,84 +41,112 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="dashboard-page">
+        <div className="hero-glow" aria-hidden="true" />
         <span className="eyebrow">Dashboard</span>
-        <h1 style={{ fontSize: "2rem", color: "#6b6f76", fontWeight: 200 }}>Loading...</h1>
+        <h1 style={{ fontSize: "2rem", color: "#6b6f76", fontWeight: 200, textAlign: "center" }}>
+          Loading...
+        </h1>
       </div>
     );
   }
 
   return (
     <div className="dashboard-page">
-      <span className="eyebrow">All Links</span>
+      <div className="hero-glow" aria-hidden="true" />
 
-      <div className="dashboard-header">
-        <div className="dashboard-header-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="20" x2="12" y2="10" />
-            <line x1="18" y1="20" x2="18" y2="4" />
-            <line x1="6" y1="20" x2="6" y2="16" />
-          </svg>
+      <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <span className="eyebrow">All Links</span>
+
+        <div className="dashboard-header" style={{ justifyContent: "center" }}>
+          <h1><span>URL Dashboard</span></h1>
         </div>
-        <h1>URL <span>Dashboard</span></h1>
+
+        <p className="dashboard-subtitle" style={{ textAlign: "center", maxWidth: "480px" }}>
+          Browse and search every link that's been shortened on SwiftLink.
+        </p>
+
+        <div className="dashboard-search-wrapper">
+          <span className="dashboard-search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            className="dashboard-search-input"
+            placeholder="Search URLs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
 
-      <p className="dashboard-subtitle">
-        Browse and search every link that's been shortened on SwiftLink.
-      </p>
-
-      <div className="dashboard-search-wrapper">
-        <span className="dashboard-search-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="7" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </span>
-        <input
-          type="text"
-          className="dashboard-search-input"
-          placeholder="Search URLs..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+      <div
+        className="glass-card"
+        style={{
+          background: "#121215",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+          position: "relative",
+          overflow: "hidden",
+          padding: "8px",
+          width: "100%",
+          maxWidth: "1080px",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-120px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "560px",
+            height: "240px",
+            background: "radial-gradient(closest-side, rgba(139,92,246,0.18), transparent)",
+            pointerEvents: "none"
+          }}
         />
-      </div>
 
-      <div className="url-table-wrapper">
-        <table className="url-table">
-          <thead>
-            <tr>
-              <th>Short ID</th>
-              <th>Original URL</th>
-              <th>Clicks</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredUrls.length === 0 ? (
-              <tr className="empty-row">
-                <td colSpan="4">No URLs found</td>
+        <div className="url-table-wrapper" style={{ position: "relative" }}>
+          <table className="url-table">
+            <thead>
+              <tr>
+                <th>Short ID</th>
+                <th>Original URL</th>
+                <th>Clicks</th>
+                <th>Actions</th>
               </tr>
-            ) : (
-              filteredUrls.map((url) => (
-                <tr key={url.shortId}>
-                  <td className="short-id-cell">{url.shortId}</td>
-                  <td className="long-url-cell">{url.longUrl}</td>
-                  <td>{url.totalClicks}</td>
-                  <td>
-                    <div className="table-actions">
-                      <button className="btn-table-action" onClick={() => copyToClipboard(url.shortId)}>
-                        Copy
-                      </button>
-                      <button className="btn-table-action" onClick={() => navigate(`/stats/${url.shortId}`)}>
-                        Stats
-                      </button>
-                    </div>
-                  </td>
+            </thead>
+
+            <tbody>
+              {filteredUrls.length === 0 ? (
+                <tr className="empty-row">
+                  <td colSpan="4">No URLs found</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredUrls.map((url) => (
+                  <tr key={url.shortId}>
+                    <td className="short-id-cell">{url.shortId}</td>
+                    <td className="long-url-cell">{url.longUrl}</td>
+                    <td>{url.totalClicks}</td>
+                    <td>
+                      <div className="table-actions">
+                        <button className="btn-table-action" onClick={() => copyToClipboard(url.shortId)}>
+                          Copy
+                        </button>
+                        <button className="btn-table-action" onClick={() => navigate(`/stats/${url.shortId}`)}>
+                          Stats
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

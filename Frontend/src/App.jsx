@@ -70,7 +70,29 @@ const buttonStyle = {
         A professional link management tool designed for modern developers. Fast, secure, and built for scale.
       </p>
 
-      <div className="glass-card" style={{ background: "#121215", border: "1px solid rgba(255, 255, 255, 0.05)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+      <div
+        className="glass-card"
+        style={{
+          background: "#121215",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "-120px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "560px",
+            height: "240px",
+            background: "radial-gradient(closest-side, rgba(139,92,246,0.18), transparent)",
+            pointerEvents: "none"
+          }}
+        />
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", marginBottom: "8px" }}>
           <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(139, 92, 246, 0.15)", border: "1px solid rgba(139, 92, 246, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)", flexShrink: 0 }}>
