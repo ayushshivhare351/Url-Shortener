@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght=200;400;600;800&display=swap');
 
 :root {
   --bg-deep: #030303;
@@ -90,7 +90,7 @@ body::before {
 h1 {
   font-size: 3.2rem;
   font-weight: 200;
-  letter-spacing: -1.5px;
+  letter-spacing: -1px;
   margin: 0;
   text-align: center;
   color: #6b6f76;
@@ -145,6 +145,28 @@ h1 span {
   gap: 12px;
   width: 100%;
   align-items: stretch;
+}
+
+/* Fixes Horizontal Input & Button Alignment on Shorten Layout */
+.input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.input-row .main-url-field {
+  flex: 2;
+}
+
+.input-row .alias-field {
+  flex: 1;
+}
+
+.input-row .shorten-btn {
+  flex-shrink: 0;
+  height: 100%;
 }
 
 .input-wrapper {
@@ -378,6 +400,8 @@ button:hover:not(:disabled) {
   h1 { font-size: 2.2rem; }
   .glass-card { padding: 25px 20px; }
   .input-group { flex-direction: column; }
+  .input-row { flex-direction: column; } /* Wraps inputs cleanly into column on mobile screens */
+  .input-row .input-wrapper { width: 100%; }
   button { width: 100%; }
   .result-content { flex-direction: column; align-items: flex-start; }
   .feature-strip { flex-direction: column; gap: 12px; }
@@ -887,4 +911,75 @@ button:hover:not(:disabled) {
   .url-table-wrapper { overflow-x: auto; }
   .url-table { min-width: 600px; }
   .dashboard-search-wrapper { max-width: 100%; }
+}
+
+
+/* */
+/* ............................................... */
+/* Update your glass-card to handle the two-column grid */
+.glass-card {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* Dynamic State Themes */
+.glass-card.theme-shorten {
+  --theme-accent: #8b5cf6; /* Purple */
+  --theme-glow: rgba(139, 92, 246, 0.18);
+}
+
+.glass-card.theme-qr {
+  --theme-accent: #10b981; /* Emerald Green (or pick #ec4899 for Pink) */
+  --theme-glow: rgba(16, 185, 129, 0.18);
+}
+
+/* Two-column container for the interactive areas */
+.card-split-container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+.card-left-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-right-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  padding: 24px;
+  min-height: 220px;
+  text-align: center;
+}
+
+/* Overriding form layout to look clean stacked on the left */
+.vertical-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Ensure active tab states feel distinct */
+.mode-tab.active.tab-green {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 -4px 16px rgba(16, 185, 129, 0.15);
+}
+.mode-tab.active.tab-green svg {
+  color: #10b981;
+}
+
+@media (max-width: 768px) {
+  .card-split-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
