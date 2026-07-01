@@ -1,124 +1,302 @@
-# 🔗 Scalable URL Shortener System
+<div align="center">
 
-A scalable and high-performance URL Shortener built using Node.js, Express.js, MongoDB, Redis, and NanoID, with a React-based frontend.
+# 🚀 SwiftLink
+### A Modern Full-Stack URL Shortener with Analytics, QR Codes, Redis Caching & Docker
 
-This project demonstrates real-world system design concepts such as caching, efficient URL mapping, and low-latency redirection.
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)]()
+[![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=node.js)]()
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)]()
+[![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?logo=redis)]()
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)]()
+[![JWT](https://img.shields.io/badge/Auth-JWT-orange)]()
 
----
+### 🔗 Live
+https://url-shortener-frontend-pzfy.onrender.com/
 
-## 🚀 Features
+### ⚙️ Backend API
+https://url-shortener-ti4q.onrender.com                    
 
-- 🔗 Convert long URLs into short, shareable links  
-- ⚡ Fast redirection using Redis caching  
-- 📊 Click tracking and analytics  
-- ⏳ URL expiration support  
-- 🌐 RESTful API architecture  
-- 💻 React-based frontend UI  
-- 🔒 Secure APIs with CORS and rate limiting  
-
----
-
-## 🛠 Tech Stack
-
-**Backend:**
-- Node.js  
-- Express.js  
-
-**Database:**
-- MongoDB  
-
-**Caching:**
-- Redis  
-
-**Frontend:**
-- React.js  
-
-**Utilities:**
-- NanoID  
-- CORS  
+</div>
 
 ---
 
-## ⚙️ System Design Overview
+# 📖 Overview
 
-- Client sends a long URL → Backend API  
-- Server generates a unique short ID using NanoID  
-- Mapping is stored in MongoDB  
-- Frequently accessed URLs are cached in Redis ⚡  
-- On request, system checks Redis → fallback to DB → redirects user  
+SwiftLink is a production-inspired URL shortening platform built using the MERN ecosystem.
 
----
+Unlike traditional URL shorteners, SwiftLink provides secure authentication, QR code generation, analytics dashboard, Redis caching, Docker support, rate limiting, and click tracking.
 
-## 📡 API Endpoints
+The project focuses on scalable backend architecture while maintaining a modern and responsive React frontend.
 
-### 🔹 Create Short URL
-POST /api/shorten
 
-### 🔹 Redirect to Original URL
-GET /:shortId
 
-### 🔹 Get Analytics
-GET /api/analytics/:shortId
 
----
+# ✨ Features
 
-## 🚀 Getting Started
+## 🔐 Authentication
 
-### 1️⃣ Clone the repository
-git clone https://github.com/your-username/url-shortener.git  
-cd url-shortener  
-
-### 2️⃣ Install dependencies
-npm install  
-
-### 3️⃣ Setup environment variables
-
-Create a `.env` file:
-
-PORT=5000  
-MONGO_URI=your_mongodb_connection  
-REDIS_URL=your_redis_connection  
-BASE_URL=http://localhost:5000  
-
-### 4️⃣ Run the server
-npm start  
+- User Registration
+- Secure Login
+- JWT Authentication
+- Password Hashing using bcrypt
+- Protected APIs
+- Optional Authentication for Anonymous URL Shortening
 
 ---
 
-## 💻 Frontend Setup
+## 🔗 URL Management
 
-cd client  
-npm install  
-npm start  
-
----
-
-## 📊 Key Learnings
-
-- Built a scalable backend system  
-- Implemented caching using Redis  
-- Designed REST APIs using Express.js  
-- Managed database operations with MongoDB  
-- Integrated frontend with backend  
-- Improved debugging and problem-solving skills  
+- Shorten Long URLs
+- Custom Alias Support
+- Automatic Alias Generation (NanoID)
+- Delete URLs
+- User Dashboard
+- Redirect Service
 
 ---
 
-## 📈 Future Improvements
+## 📊 Analytics
 
-- 🔐 Authentication & user accounts  
-- 🌍 Custom domain support  
-- 📊 Advanced analytics dashboard  
-- 📦 Docker & CI/CD integration  
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to fork and improve the project.
+- Total Clicks
+- Unique Visitors
+- Browser Distribution
+- Device Distribution
+- Daily Click Statistics
+- Recent Click History
+- Interactive Charts
 
 ---
 
-## ⭐ Support
+## ⚡ Performance
 
-If you found this project helpful, consider giving it a ⭐ on GitHub!
+- Redis URL Cache
+- Redis Click Counter Cache
+- Cache Synchronization
+- Fast Redirect Lookup
+
+---
+
+## 🛡 Security
+
+- JWT Authentication
+- Password Hashing
+- Rate Limiting
+- Environment Variable Management
+- Protected Routes
+
+---
+
+## 📱 Additional Features
+
+- QR Code Generation
+- Responsive UI
+- Docker Support
+- Docker Compose Setup
+- MongoDB Atlas
+- Redis Integration
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React 19
+- Vite
+- JavaScript (ES Modules)
+- React Router DOM
+- Axios
+- Chart.js
+- React ChartJS 2
+- QRCode
+- ESLint
+
+---
+
+## Backend
+
+- Node.js
+- Express.js
+- JavaScript (CommonJS)
+- JWT
+- bcryptjs
+- NanoID
+- dotenv
+- cors
+- ua-parser-js
+
+---
+
+## Database
+
+- MongoDB Atlas
+
+Collections
+
+- Users
+- URLs
+- Click Analytics
+
+---
+
+## Cache
+
+- Redis
+
+---
+
+## DevOps
+
+- Docker
+- Docker Compose
+- Render Deployment
+
+---
+
+# 📂 Project Structure
+
+```text
+URL-Shortener
+│
+├── Frontend
+│   ├── src
+│   ├── public
+│   └── package.json
+│
+├── middleware
+├── models
+├── server.js
+├── redisClient.js
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/ayushshivhare351/Url-Shortener.git
+
+cd Url-Shortener
+```
+
+---
+
+## Backend
+
+```bash
+npm install
+npm start
+```
+
+---
+
+## Frontend
+
+```bash
+cd Frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 🐳 Docker
+
+Build and start the complete application
+
+```bash
+docker compose up --build
+```
+
+---
+
+# 🔑 Environment Variables
+
+Backend `.env`
+
+```env
+MONGODB_URI=
+
+JWT_SECRET=
+
+REDIS_URL=
+
+BASE_URL=http://localhost:3000
+```
+
+Frontend `.env`
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+---
+
+# 📈 Analytics Included
+
+✔ Daily Click Trends
+
+✔ Browser Analytics
+
+✔ Device Analytics
+
+✔ Recent Activity
+
+✔ Total Click Count
+
+✔ Unique Visitors
+
+---
+
+# ⚡ Performance Optimizations
+
+- Redis Caching
+- Cached Redirects
+- Cached Click Counters
+- Rate Limiting
+- MongoDB Indexing
+- Lightweight REST APIs
+
+---
+
+# 🔒 Security
+
+- JWT Authentication
+- Password Hashing
+- Protected Routes
+- Rate Limiting
+- Environment Variables
+- Secure API Design
+
+---
+
+# 🚀 Future Improvements
+
+- Link Expiration
+- Password Protected URLs
+- Public API
+- Edit Existing Links
+- Search & Filters
+- Favorites
+- Bulk URL Shortening
+
+---
+
+# 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+
+Built with ❤️ using React, Express, MongoDB, Redis & Docker.
+
+</div>
